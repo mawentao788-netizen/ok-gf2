@@ -97,7 +97,10 @@ class DailyActivityMixin:
         """验证补给页与领取结果，无法确认时保留待核查。"""
         page_match = re.compile(r"^\s*" + r"\s*".join(map(re.escape, reward_activity)) + r"\s*$")
         claim_match = re.compile(r"^\s*(?:一\s*键\s*)?领\s*取(?:\s*奖\s*励)?\s*$")
-        empty_match = re.compile(r"已\s*领\s*取|暂无可领取|未到领取时间|未到开放时间")
+        empty_match = re.compile(
+            r"已\s*领\s*取|暂无可领取|未到领取时间|未到开放时间|"
+            r"(?:\d+\s*天\s*)?\d+\s*:\s*\d{2}\s*:\s*\d{2}\s*后\s*可\s*领取"
+        )
         claimed = 0
         for _ in range(10):
             if not self.wait_ocr(match=page_match, box=self.box.right, time_out=3, raise_if_not_found=False):
