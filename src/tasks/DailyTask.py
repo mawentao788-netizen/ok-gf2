@@ -200,6 +200,7 @@ class DailyTask(
         ]
 
     def run(self):
+        """确认自动战斗配置后按清单执行日常，并始终生成执行汇总。"""
         if not self.config.get("已确认启用游戏内全局自动功能"):
             self.confirm_auto_battle_up()
         try:

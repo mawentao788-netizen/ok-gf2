@@ -6,6 +6,7 @@ import time
 
 class DailyPublicMixin:
     def gongongqu(self):
+        """处理公共区委托奖励与派遣，按配置启动并等待游戏内自主循环。"""
         self.info_set("current_task", "gongongqu")
         if result := self.wait_ocr(match=re.compile("委托"), box=self.box._claim, raise_if_not_found=True, log=True):
             self.click_box_by_match_position(result, "委托", after_sleep=2)
@@ -85,6 +86,7 @@ class DailyPublicMixin:
         return False
 
     def auto_loop(self):
+        """等待自主循环启动及结算；超时或界面异常时中断后续日常并保留现场。"""
         try:
             wait_minutes = int(self.config.get("自主循环等待上限（分钟）", 60))
         except (TypeError, ValueError) as exc:
@@ -149,6 +151,7 @@ class DailyPublicMixin:
         box = self.box_of_screen(0.20, 0.20, 0.96, 0.87)
 
         def read_names():
+            """只提取商品区的稳定名称，排除价格、倒计时与页签文字。"""
             return frozenset(
                 item.name for item in self.ocr(box=box) if re.fullmatch(r"[\u4e00-\u9fff·]{4,}", item.name)
             )
@@ -167,6 +170,7 @@ class DailyPublicMixin:
             return False
 
         def changed():
+            """要求新旧分类商品名称双向变化，确认页签点击实际生效。"""
             current = self._shop_category_content()
             return current and bool(current - previous) and bool(previous - current)
 
@@ -220,6 +224,7 @@ class DailyPublicMixin:
         self.ensure_main()
 
     def buy_others(self):
+        """依次进入支持的商店，购买可识别的一键心愿单商品。"""
         self.info_set("current_task", "心愿单购买")
         self.click(0.055, 0.946, after_sleep=1)
         others_list = ["家具商店", "班组商店", "调度商店", "讯段交易", "心智统合", "人形堆栈"]

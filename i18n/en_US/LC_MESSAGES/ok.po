@@ -13,7 +13,7 @@ msgid "自主循环等待上限（分钟）"
 msgstr "Auto-loop timeout (minutes)"
 
 msgid "等待游戏内整个自主循环结束的最长时间，包含尘烟战斗；超时后停止后续日常任务"
-msgstr "Maximum wait for the entire in-game auto loop, including Dust Front battles; stop subsequent daily tasks on timeout."
+msgstr "Maximum wait for the entire in-game auto loop, including Dust Smoke battles; stop subsequent daily tasks on timeout."
 
 msgid "一键日常"
 msgstr "One-click Dailies"
